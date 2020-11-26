@@ -1,0 +1,19 @@
+OrdererOrgs:  #오더링 서비스 노드 조직 정의 
+  - Name: Orderer
+    Domain: cnrlpub.com #도메인 네임 
+    Specs:
+      - Hostname: orderer
+
+PeerOrgs: #노드 조직 정의 
+  - Name: Sales1
+    Domain: sales1.cnrlpub.com
+    Template: # 피어의 수 
+      Count: 2
+    Users: # 사용자 수 
+      Count: 1
+  - Name: Customer
+    Domain: customer.cnrlpub.com
+    Template:
+      Count: 2
+    Users:
+      Count: 1

@@ -1,0 +1,60 @@
+Organizations: #조직에 대한 정보 입력 
+
+    - &OrdererOrg
+        Name: OrdererOrg
+        ID: OrdererOrg
+        MSPDir: crypto-config/ordererOrganizations/cnrlpub.com/msp
+
+    - &Sales1Org
+        Name: Sales1Org
+        ID: Sales1Org
+        MSPDir: crypto-config/peerOrganizations/sales1.cnrlpub.com/msp
+        AnchorPeers:
+            - Host: peer0.sales1.cnrlpub.com
+              Port: 7051
+
+    - &CustomerOrg
+        Name: CustomerOrg
+        ID: CustomerOrg
+        MSPDir: crypto-config/peerOrganizations/customer.cnrlpub.com/msp
+        AnchorPeers:
+            - Host: peer0.customer.cnrlpub.com
+              Port: 7051
+
+Orderer: &OrdererDefaults #오더링 서비스 노드 정보 
+
+    OrdererType: solo #solo 방식 
+    Addresses:
+        - orderer.cnrlpub.com:7050
+    BatchTimeout: 2s #일괄처리 시간 
+    BatchSize: #일괄저리 크기 
+        MaxMessageCount: 10
+        AbsoluteMaxBytes: 99 MB
+        PreferredMaxBytes: 512 KB
+    Kafka:
+        Brokers:
+            - 127.0.0.1:9092
+    Organizations:
+
+Application: &ApplicationDefaults
+    Organizations:
+    
+Profiles: #오더러, 제네시스 블록, 채널 
+
+    OrdererGenesis:
+        Orderer:
+            <<: *OrdererDefaults
+            Organizations:
+                - *OrdererOrg
+        Consortiums:
+            SampleConsortium:
+                Organizations:
+                    - *Sales1Org
+                    - *CustomerOrg
+    Channel1:
+        Consortium: SampleConsortium
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                - *Sales1Org
+                - *CustomerOrg

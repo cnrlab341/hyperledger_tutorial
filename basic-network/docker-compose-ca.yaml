@@ -1,0 +1,21 @@
+version: '2'
+
+networks:
+  cnrl:
+
+services:
+  ca.sales1.cnrlpub.com:
+    image: hyperledger/fabric-ca
+    environment:
+      - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server #ca서버 홈 디렉토리 
+      - FABRIC_CA_SERVER_CA_NAME=ca.sales1.cnrlpub.com #ca 서버 이름 
+      - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.sales1.cnrlpub.com-cert.pem #ca 서버 이증서 파일 경로 
+      - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/9bb6f4a9e89f07573a350c142c6e24aed2d799078e6d9a05bc0f36810ffeabe7_sk #ca 서버의 개인 키가  저장된  경로 
+    ports:
+      - "7054:7054"
+    command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
+    volumes:
+      - ./crypto-config/peerOrganizations/sales1.cnrlpub.com/ca/:/etc/hyperledger/fabric-ca-server-config
+    container_name: ca.sales1.cnrlpub.com
+    networks:
+      - cnrl
