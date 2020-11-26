@@ -1,0 +1,83 @@
+{
+    "name": "basic-network",
+    "version": "1.0.0",
+    "client": {
+        "organization": "Sales1",
+        "connection": {
+            "timeout": {
+                "peer": {
+                    "endorser": "300"
+                },
+                "orderer": "300"
+            }
+        }
+    },
+    "channels": {
+        "channelsales1": {
+            "orderers": [
+                "orderer.cnrlpub.com"
+            ],
+            "peers": {
+                "peer0.sales1.cnrlpub.com": {}
+            }
+        }
+    },
+    "organizations": {
+        "Sales1": {
+            "mspid": "Sales1Org",
+            "peers": [
+                "peer0.sales1.cnrlpub.com"
+            ],
+            "certificateAuthorities": [
+                "ca.sales1.cnrlpub.com"
+            ],
+            "adminPrivateKey": {
+                "path":"../../basic-network/crypto-config/peerOrganizations/sales1.cnrlpub.com/users/Admin@sales1.cnrlpub.com/msp/keystore/76a02c8f03284693bc7de7a64a7ae9752cb3f3f7b3da965aab5d03e3fdd9c4b7_sk"
+            },
+            "signedCert":{
+                "path":"../../basic-network/crypto-config/peerOrganizations/sales1.cnrlpub.com/users/Admin@sales1.cnrlpub.com/msp/signcerts/Admin@sales1.cnrlpub.com-cert.pem"
+            }
+        }
+    },
+    "orderers": {
+        "orderer.cnrlpub.com": {
+            "url": "grpc://localhost:7050",
+            "grpcOptions":{
+                "ssl-target-name-override":"orderer.cnrlpub.com",
+                "grpc-max-send-message-length": -1
+            },
+            "tlsCACerts": {
+                "path": "../../basic-network/crypto-config/ordererOrganizations/cnrlpub.com/orderers/orderer.cnrlpub.com/msp/tlscacerts/tlsca.cnrlpub.com-cert.pem"
+            }
+        }
+    },
+    "peers": {
+        "peer0.sales1.cnrlpub.com": {
+            "url": "grpc://localhost:7051",
+            "tlsCACerts": {
+                "path": "../../basic-network/crypto-config/peerOrganizations/sales1.cnrlpub.com/peers/peer0.sales1.cnrlpub.com/msp/tlscacerts/tlsca.sales1.cnrlpub.com-cert.pem"
+            },
+            "grpcOptions": {
+                "ssl-target-name-override": "peer1.sales1.cnrlpub.com",
+                "hostnameOverride": "peer1.sales1.cnrlpub.com"
+            }
+        }
+    },
+    "certificateAuthorities": {
+        "ca.sales1.cnrlpub.com": {
+            "url": "http://localhost:7054",
+            "caName": "ca.sales1.cnrlpub.com",
+            "tlsCACerts": {
+                "path": "../../basic-network/crypto-config/peerOrganizations/sales1.cnrlpub.com/ca/ca.sales1.cnrlpub.com-cert.pem"
+            },
+            "registrar":{
+                "enrollId": "admin",
+                "enrollSecret": "adminpw",
+                "caName": "casales1"
+            },
+            "httpOptions": {
+                "verify": false
+            }
+        }
+    }
+}
